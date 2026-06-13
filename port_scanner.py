@@ -37,3 +37,20 @@ print(" "+"-"*30)
 print(f"\n Scan Complete")
 print(f"Open ports found : {len(open_ports)}")
 print(f" Finished at: {datetime.datetime.now().strftime('%H:%M:%S')}\n")
+# Save results to a file
+filename= f"scan_{ip}_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+with open(filename, "w") as f:
+    f.write(f"Port Scan Report\n")
+    f.write(f"{'-'*30}\n")
+    f.write(f"Target: {ip}\n")
+    f.write(f"Ports: 1-1024\n")
+    f.write(f"Date: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+    f.write(f"{'='*30}\n\n")
+    if open_ports:
+        for port, service in open_ports:
+            f.write(f"[OPEN] Port {port}- {service}\n")
+    else:
+       f.write("No open ports found.\n")
+    f.write(f"Total open ports: {len(open_ports)}\n")
+print(f"Report saved- {filename}\n")
+       
