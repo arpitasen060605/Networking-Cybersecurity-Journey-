@@ -13,8 +13,29 @@ for char in password:
         has_digit= True
     else:
         has_symbol= True
+score=0
+if length>=8:
+    score+=1
+if length>=12:
+    score+=1
+if has_upper:
+    score+=1
+if has_lower:
+    score+=1
+if has_digit:
+    score+=1
+if has_symbol:
+    score+=1
+if score<=2:
+    strength= "WEAK"
+elif score<=4:
+    strength= "MEDIUM"
+else:
+    strength= "STRONG"
 print(f"\nPassword length- {length}")
 print(f"Has uppercase- {has_upper}")
 print(f"Has lowercase- {has_lower}")
 print(f"Has digit- {has_digit}")
 print(f"Has symbol- {has_symbol}")
+print(f"\nScore- {score}/6")
+print(f"Strength- {strength}")
