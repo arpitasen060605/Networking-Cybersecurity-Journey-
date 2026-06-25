@@ -1,4 +1,8 @@
 password= input("Enter a password to analyze:")
+COMMON_PASSWORDS = {"password", "password123", "123456", "12345678", "qwerty",
+    "abc123", "letmein", "welcome", "admin", "iloveyou",
+    "monkey", "dragon", "football", "111111", "123123",
+    "sunshine", "princess", "trustno1", "qwerty123", "1q2w3e4r"}
 length= len(password)
 has_upper= False
 has_lower= False
@@ -13,6 +17,7 @@ for char in password:
         has_digit= True
     else:
         has_symbol= True
+is_common = password.lower() in COMMON_PASSWORDS 
 score=0
 if length>=8:
     score+=1
@@ -26,6 +31,10 @@ if has_digit:
     score+=1
 if has_symbol:
     score+=1
+
+if is_common:
+    score+=0
+
 if score<=2:
     strength= "WEAK"
 elif score<=4:
@@ -39,3 +48,11 @@ print(f"Has digit- {has_digit}")
 print(f"Has symbol- {has_symbol}")
 print(f"\nScore- {score}/6")
 print(f"Strength- {strength}")
+
+if is_common:
+    print("This is one of the most commonly used, change it immediately!")
+
+
+
+
+
