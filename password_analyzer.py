@@ -33,7 +33,7 @@ if has_symbol:
     score+=1
 
 if is_common:
-    score+=0
+    score=0
 
 if score<=2:
     strength= "WEAK"
