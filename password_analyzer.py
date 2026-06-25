@@ -1,37 +1,8 @@
 import math
-password= input("Enter a password to analyze:")
 COMMON_PASSWORDS = {"password", "password123", "123456", "12345678", "qwerty",
     "abc123", "letmein", "welcome", "admin", "iloveyou",
     "monkey", "dragon", "football", "111111", "123123",
     "sunshine", "princess", "trustno1", "qwerty123", "1q2w3e4r"}
-length= len(password)
-has_upper= False
-has_lower= False
-has_digit= False
-has_symbol= False
-for char in password:
-    if char.isupper():
-        has_upper= True
-    elif char.islower():
-        has_lower= True
-    elif char.isdigit():
-        has_digit= True
-    else:
-        has_symbol= True
-is_common = password.lower() in COMMON_PASSWORDS 
-score=0
-pool_size=0
-if has_lower:
-    pool_size+=26
-if has_upper:
-    pool_size+=26
-if has_digit:
-    pool_size+=10
-if has_symbol:
-    pool_size+=32
-combinations= pool_size**length
-guesses_per_second= 1_000_000_000
-seconds_to_crack= combinations/guesses_per_second
 def format_crack_time(seconds):
     if seconds<1:
         return "Instantly"
@@ -48,7 +19,30 @@ def format_crack_time(seconds):
         if years > 1e6:
             return f"{years:.2e} years"
         return f"{years:.1f} years"
-crack_time = format_crack_time(seconds_to_crack)
+def strength_bar(score, max_score= 6):
+    filled= "\u2588"* score
+    empty= "\u2591"* (max_score - score)
+    return f"[{filled}{empty}]"
+print("\n" + "=" * 45)
+print("Password Strength Analyzer")
+print("=" * 45)
+password= input("\n Enter a password to analyze-")
+length= len(password)
+has_upper= False
+has_lower= False
+has_digit= False
+has_symbol= False
+for char in password:
+    if char.isupper():
+        has_upper= True
+    elif char.islower():
+        has_lower= True
+    elif char.isdigit():
+        has_digit= True
+    else:
+        has_symbol= True
+is_common = password.lower() in COMMON_PASSWORDS 
+score=0
 if length>=8:
     score+=1
 if length>=12:
@@ -71,17 +65,38 @@ elif score<=4:
     strength= "MEDIUM"
 else:
     strength= "STRONG"
-print(f"\nPassword length- {length}")
-print(f"Has uppercase- {has_upper}")
-print(f"Has lowercase- {has_lower}")
-print(f"Has digit- {has_digit}")
-print(f"Has symbol- {has_symbol}")
-print(f"\nScore- {score}/6")
-print(f"Strength- {strength}")
-print(f"Estimated crack time: {crack_time}")
-if is_common:
-    print("This is one of the most commonly used, change it immediately!")
+pool_size=0
+if has_lower:
+    pool_size+=26
+if has_upper:
+    pool_size+=26
+if has_digit:
+    pool_size+=10
+if has_symbol:
+    pool_size+=32
+combinations= pool_size**length if pool_size >0 else 0
+guesses_per_second= 1_000_000_000
+seconds_to_crack= combinations/guesses_per_second if not is_common else 0
+crack_time = format_crack_time(seconds_to_crack)
 
+print("\n"+"-"*41)
+print("Character Analysis")
+print(" "+"-"*41)
+print(f"\nPassword length- {length}")
+print(f"Uppercase- {'✅'if has_upper else '❌'}")
+print(f"Lowercase- {'✅'if has_lower else '❌'}")
+print(f"Digit- {'✅'if has_digit else '❌'}")
+print(f"Symbol- {'✅'if has_symbol else '❌'}")
+print(f"Common password : {' YES' if is_common else ' No'}")
+print("\n"+"-"*41)
+print("RESULT")
+print(" "+"-"*41)
+print(f" Score- {score}/6 {strength_bar(score)}")
+print(f" Strength- {strength}")
+print(f" Estimated crack time: {crack_time}")
+if is_common:
+    print("\n WARNING---This is one of the most commonly used, change it immediately!")
+print("\n"+"="*45+"\n")
 
 
 
