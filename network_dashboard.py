@@ -99,39 +99,43 @@ def get_latency_and_loss(target="8.8.8.8", count=4):
       avg_latency= None
    return avg_latency, packet_loss
 
-print("\n Network Information")
-print(" "+ "-"*30)
-print(f"Local IP- {get_local_ip()}")
-print(f"Gateway- {get_gateway()}")
-print(f"DNS- {get_dns()}")
-print(f"\nCPU Usage- {get_cpu_usage()}%")
-print(f"RAM Usage- {get_ram_usage()}%")
-print(" "+ "-"*30 + "\n")
-print("\nScanning for connected devices....")
-devices= get_connected_devices(network_prefix)
-print(f"Found {len(devices)} device(s):")
-for index, d in enumerate(devices, start=1):
-   print(f"   {index}.{d}")
-print(" "+"-"*30)
+if __name__=="__main__":
+   local_ip= get_local_ip()
+   network_prefix= get_network_prefix(local_ip)
 
-choice= input("\n Enter the number of the device to scan for open ports:")
-try:
-   selected_index= int(choice)-1
-   target_ip= devices[selected_index]
-except(ValueError, IndexError):
-   print("Invalid choice.Skipping port scan")
-   target_ip= None
-if target_ip:
-   print(f"\n Scanning open ports on {target_ip}....")
-   ports= get_open_ports(target_ip)
-   print(f"Found {len(ports)} open port(s):")
-   for p in ports:
-      print(f"   - {p}")
-print("\n Checking Internet Latency.....")
-avg_latency, packet_loss = get_latency_and_loss()
-if avg_latency is not None:
-   print(f"Average Latency- {avg_latency:.1f} ms")
-else:
-   print(f"Average Latency- N/A (all pings failed)")
-print(f"Packet Loss- {packet_loss:.0f}%")
-print(" "+ "-"* 30 + "\n")
+   print("\n Network Information")
+   print(" "+ "-"*30)
+   print(f"Local IP- {get_local_ip()}")
+   print(f"Gateway- {get_gateway()}")
+   print(f"DNS- {get_dns()}")
+   print(f"\nCPU Usage- {get_cpu_usage()}%")
+   print(f"RAM Usage- {get_ram_usage()}%")
+   print(" "+ "-"*30 + "\n")
+   print("\nScanning for connected devices....")
+   devices= get_connected_devices(network_prefix)
+   print(f"Found {len(devices)} device(s):")
+   for index, d in enumerate(devices, start=1):
+      print(f"   {index}.{d}")
+   print(" "+"-"*30)
+
+   choice= input("\n Enter the number of the device to scan for open ports:")
+   try:
+      selected_index= int(choice)-1
+      target_ip= devices[selected_index]
+   except(ValueError, IndexError):
+      print("Invalid choice.Skipping port scan")
+      target_ip= None
+   if target_ip:
+      print(f"\n Scanning open ports on {target_ip}....")
+      ports= get_open_ports(target_ip)
+      print(f"Found {len(ports)} open port(s):")
+      for p in ports:
+         print(f"   - {p}")
+   print("\n Checking Internet Latency.....")
+   avg_latency, packet_loss = get_latency_and_loss()
+   if avg_latency is not None:
+      print(f"Average Latency- {avg_latency:.1f} ms")
+   else:
+      print(f"Average Latency- N/A (all pings failed)")
+   print(f"Packet Loss- {packet_loss:.0f}%")
+   print(" "+ "-"* 30 + "\n")
