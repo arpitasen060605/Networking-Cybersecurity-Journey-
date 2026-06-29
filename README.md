@@ -26,3 +26,17 @@ python ping_sweeper.py
 - Network reconnaissance (host discovery)
 - Python subprocess module
 - Multithreading with locks
+  
+## Project 3: Password Strength Analyzer
+A password strength checker built in Python that scores 
+passwords, flags commonly leaked ones, and estimates brute-force 
+crack time using entropy calculations.
+
+## How to run
+python password_analyzer.py
+
+## Concepts learned
+- Password entropy and brute-force math
+- Dictionary attacks vs brute-force attacks
+- Character pool size and exponential growth
+- Python sets for fast lookups
