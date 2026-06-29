@@ -61,6 +61,26 @@ def get_network_prefix(local_ip):
 local_ip= get_local_ip()
 network_prefix = get_network_prefix(local_ip)
 
+def get_open_ports(ip, port_range=(1,1024)):
+  open_ports=[]
+  lock= threading.Lock()
+  def scan_port(port):
+     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        sock.settimeout(0.05)
+        result= sock.connect_ex((ip, port))
+        if result==0:
+           with lock:
+              open_ports.append(port)
+  threads=[]
+  for port in range(port_range[0], port_range[1]+1):
+     t= threading.Thread(target=scan_port, args=(port,))
+     threads.append(t)
+     t.start()
+  for t in threads:
+      t.join()
+  open_ports.sort()
+  return open_ports 
+
 print("\n Network Information")
 print(" "+ "-"*30)
 print(f"Local IP- {get_local_ip()}")
@@ -72,6 +92,21 @@ print(" "+ "-"*30 + "\n")
 print("\nScanning for connected devices....")
 devices= get_connected_devices(network_prefix)
 print(f"Found {len(devices)} device(s):")
-for d in devices:
-   print(f"   -{d}")
-print(" "+"-"*30+ "\n")
+for index, d in enumerate(devices, start=1):
+   print(f"   {index}.{d}")
+print(" "+"-"*30)
+
+choice= input("\n Enter the number of the device to scan for open ports:")
+try:
+   selected_index= int(choice)-1
+   target_ip= devices[selected_index]
+except(ValueError, IndexError):
+   print("Invalid choice.Skipping port scan")
+   target_ip= None
+if target_ip:
+   print(f"\n Scanning open ports on {target_ip}....")
+   ports= get_open_ports(target_ip)
+   print(f"Found {len(ports)} open port(s):")
+   for p in ports:
+      print(f"   - {p}")
+print(" "+ "-"* 30 + "\n")
