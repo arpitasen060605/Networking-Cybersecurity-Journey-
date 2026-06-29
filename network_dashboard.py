@@ -81,6 +81,24 @@ def get_open_ports(ip, port_range=(1,1024)):
   open_ports.sort()
   return open_ports 
 
+def get_latency_and_loss(target="8.8.8.8", count=4):
+   latencies= []
+   sent= count
+   received= 0
+   for _ in range(count):
+      result= subprocess.run(["ping","-n","1","-w","1000",target],capture_output=True,text=True)
+      if result.returncode==0:
+         received+=1
+         match= re.search(r"time[=<](\d+)ms", result.stdout)
+         if match:
+            latencies.append(int(match.group(1)))
+   packet_loss= ((sent- received)/sent)*100
+   if latencies:
+      avg_latency=sum(latencies)/ len(latencies)
+   else:
+      avg_latency= None
+   return avg_latency, packet_loss
+
 print("\n Network Information")
 print(" "+ "-"*30)
 print(f"Local IP- {get_local_ip()}")
@@ -109,4 +127,11 @@ if target_ip:
    print(f"Found {len(ports)} open port(s):")
    for p in ports:
       print(f"   - {p}")
+print("\n Checking Internet Latency.....")
+avg_latency, packet_loss = get_latency_and_loss()
+if avg_latency is not None:
+   print(f"Average Latency- {avg_latency:.1f} ms")
+else:
+   print(f"Average Latency- N/A (all pings failed)")
+print(f"Packet Loss- {packet_loss:.0f}%")
 print(" "+ "-"* 30 + "\n")
