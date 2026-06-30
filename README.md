@@ -46,10 +46,6 @@ A full-stack network monitoring tool, built in two phases: a Python
 CLI engine that pulls live system and network data, then wrapped in 
 a Flask web app with an interactive dashboard UI.
 
-## How to run
-python app.py
-Then open http://127.0.0.1:5000
-
 ## Concepts learned
 - Regex for parsing system command output
 - psutil for CPU/RAM monitoring
