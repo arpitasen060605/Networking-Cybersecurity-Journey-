@@ -40,3 +40,19 @@ python password_analyzer.py
 - Dictionary attacks vs brute-force attacks
 - Character pool size and exponential growth
 - Python sets for fast lookups
+
+## Project 4: Network Monitoring Dashboard
+A full-stack network monitoring tool, built in two phases: a Python 
+CLI engine that pulls live system and network data, then wrapped in 
+a Flask web app with an interactive dashboard UI.
+
+## How to run
+python app.py
+Then open http://127.0.0.1:5000
+
+## Concepts learned
+- Regex for parsing system command output
+- psutil for CPU/RAM monitoring
+- Flask routing, templates, and Jinja2 (loops, conditionals, filters)
+- GET vs POST and HTML forms
+- Reusing and combining code from earlier projects
