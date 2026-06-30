@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta http-equiv="refresh" content="10">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Networking Monitoring Dashboard</title>
@@ -47,6 +48,9 @@
 </head>
 <body>
     <h1>Network Monitoring Dashboard</h1>
+    <p style="text-align: center; color: #64748b; margin-top: -10px;">
+      Refreshing every 10 seconds — device scan may take a few seconds
+    </p>
     <div class="dashboard">
         <div class="card">
             <h3>Local IP</h3>
@@ -67,6 +71,17 @@
         <div class="card">
           <h3>RAM Usage</h3>
           <p>{{ram}}%</p>
+        </div>
+        <div class="card">
+            <h3>Latency / Packet Loss</h3>
+            <p>
+                {% if avg_latency %}
+                    {{ "%.1f"|format(avg_latency) }} ms
+                {% else %}
+                    N/A
+                {% endif %}
+                &nbsp;|&nbsp; {{ "%.0f"|format(packet_loss) }}% loss
+            </p>
         </div>
     </div>
     <div class="dashboard" style="margin-top: 30px; grid-template-columns: 1fr;">
