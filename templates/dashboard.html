@@ -69,5 +69,31 @@
           <p>{{ram}}%</p>
         </div>
     </div>
+    <div class="dashboard" style="margin-top: 30px; grid-template-columns: 1fr;">
+    <div class="card">
+        <h3>Connected Devices</h3>
+        <form method="POST">
+            <select name="device" style="padding: 8px; border-radius: 6px; margin-top: 10px;">
+                {% for device in devices %}
+                    <option value="{{ device }}">{{ device }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" style="padding: 8px 16px; margin-left: 10px; border-radius: 6px; border: none; background-color: #38bdf8; color: #0f172a; font-weight: bold; cursor: pointer;">
+                Scan Ports
+            </button>
+        </form>
+
+        {% if selected_device %}
+            <p style="margin-top: 15px;">
+                <strong>{{ selected_device }}</strong> — 
+                {% if open_ports %}
+                    Open ports: {{ open_ports }}
+                {% else %}
+                    No open ports found.
+                {% endif %}
+            </p>
+        {% endif %}
+    </div>
+</div>
 </body>
 </html>
