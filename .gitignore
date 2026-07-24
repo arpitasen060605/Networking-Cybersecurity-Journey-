@@ -1,1 +1,8 @@
-﻿*.txt
+﻿venv/
+__pycache__/
+*.pyc
+.env
+*.db
+.vscode/
+scan_*.txt
+sweep_*.txt
