@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SOC Dashboard</title>
+</head>
+<body>
+    <h1>IP Reputation Checker</h1>
+    <form method="POST">
+        <input type="text" name="ip_address" placeholder="Enter IP address" required>
+        <button type="submit">Check</button>
+    </form>
+
+    {% if result %}
+        <h2>Result</h2>
+        <p>IP: {{ result.ip }}</p>
+        <p>Abuse Score: {{ result.abuse_score }}/100</p>
+        <p>Country: {{ result.country }}</p>
+        <p>ISP: {{ result.isp }}</p>
+        <p>Total Reports: {{ result.total_reports }}</p>
+        <p>Is Tor: {{ result.is_tor }}</p>
+    {% endif %}
+</body>
+</html>

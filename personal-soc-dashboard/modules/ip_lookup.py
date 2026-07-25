@@ -20,12 +20,15 @@ def check_ip(ip_address):
     print(response.status_code)
     result = response.json()
     ip_data= result["data"]
-    print("IP:", ip_data["ipAddress"])
-    print("Abuse Score:", ip_data["abuseConfidenceScore"],"/100")
-    print("Country:", ip_data["countryCode"])
-    print("ISP:", ip_data["isp"])
-    print("Total Reports:", ip_data["totalReports"])
-    print("Is Tor:", ip_data["isTor"]) 
+    return{
+        "ip": ip_data["ipAddress"],
+        "abuse_score": ip_data["abuseConfidenceScore"],
+        "country": ip_data["countryCode"],
+        "isp": ip_data["isp"],
+        "total_reports": ip_data["totalReports"],
+        "is_tor": ip_data["isTor"]
+    }
+
 
 if __name__ == "__main__":
-    check_ip("185.220.101.1")
+    print(check_ip("185.220.101.1"))
