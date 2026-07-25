@@ -2,22 +2,39 @@
 <html>
 <head>
     <title>SOC Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>IP Reputation Checker</h1>
-    <form method="POST">
-        <input type="text" name="ip_address" placeholder="Enter IP address" required>
-        <button type="submit">Check</button>
-    </form>
+    <div class="container">
+        <h1>IP Reputation Checker</h1>
 
-    {% if result %}
-        <h2>Result</h2>
-        <p>IP: {{ result.ip }}</p>
-        <p>Abuse Score: {{ result.abuse_score }}/100</p>
-        <p>Country: {{ result.country }}</p>
-        <p>ISP: {{ result.isp }}</p>
-        <p>Total Reports: {{ result.total_reports }}</p>
-        <p>Is Tor: {{ result.is_tor }}</p>
-    {% endif %}
+        <form method="POST" class="scan-form">
+            <input type="text" name="ip_address" placeholder="Enter IP address" required>
+            <button type="submit">Check</button>
+        </form>
+
+        {% if result %}
+        <div class="card">
+            <h3>Result</h3>
+            <div class="row"><span>IP Address</span><span>{{ result.ip }}</span></div>
+            <div class="row">
+                <span>Abuse Score</span>
+                <span>
+                    {% if result.abuse_score >= 80 %}
+                        <span class="badge badge-critical">{{ result.abuse_score }}/100</span>
+                    {% elif result.abuse_score >= 30 %}
+                        <span class="badge badge-warning">{{ result.abuse_score }}/100</span>
+                    {% else %}
+                        <span class="badge badge-clean">{{ result.abuse_score }}/100</span>
+                    {% endif %}
+                </span>
+            </div>
+            <div class="row"><span>Country</span><span>{{ result.country }}</span></div>
+            <div class="row"><span>ISP</span><span>{{ result.isp }}</span></div>
+            <div class="row"><span>Total Reports</span><span>{{ result.total_reports }}</span></div>
+            <div class="row"><span>Is Tor</span><span>{{ result.is_tor }}</span></div>
+        </div>
+        {% endif %}
+    </div>
 </body>
 </html>
