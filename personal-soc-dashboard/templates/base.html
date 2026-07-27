@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}SOC Dashboard{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="layout">
+        <div class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">S</div>
+                <div class="logo-text">SOC Dashboard</div>
+            </div>
+            <a href="/" class="nav-item">IP Reputation</a>
+            <a href="/hash" class="nav-item">Hash Lookup</a>
+        </div>
+
+        <div class="main">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</body>
+</html>

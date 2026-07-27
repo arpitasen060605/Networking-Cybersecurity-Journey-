@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Hash Lookup — SOC Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="container">
+{% extends "base.html"%}
+{% block title %}Hash Lookup{% endblock %}
+{% block content %}
         <h1>Hash Lookup</h1>
 
         <form method="POST" class="scan-form">
@@ -36,6 +31,4 @@
             <div class="row"><span>Undetected</span><span>{{ result.undetected }}</span></div>
         </div>
         {% endif %}
-    </div>
-</body>
-</html>
+{% endblock %} 

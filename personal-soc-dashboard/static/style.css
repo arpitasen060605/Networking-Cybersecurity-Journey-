@@ -5,7 +5,7 @@ body {
     background: #1a2438;
     color: #C9D2DC;
     min-height: 100vh;
-    padding: 40px 20px;
+    padding: 0;
 }
 
 .container {
@@ -89,3 +89,64 @@ h1 {
 .badge-critical { background: rgba(99,32,36,0.35); color: #f0a9ac; }
 .badge-warning { background: rgba(111,67,56,0.35); color: #e0b49f; }
 .badge-clean { background: rgba(159,216,163,0.15); color: #9fd8a3; }
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 220px;
+    background: #25344F;
+    padding: 28px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 32px;
+}
+
+.logo-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: #D9B993;
+    color: #1a2438;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.logo-text {
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.sidebar .nav-item {
+    display: block;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #617B91;
+    text-decoration: none;
+    transition: 0.15s;
+}
+
+.sidebar .nav-item:hover {
+    background: #2f425f;
+    color: #C9D2DC;
+}
+
+.main {
+    flex: 1;
+    padding: 40px;
+}
