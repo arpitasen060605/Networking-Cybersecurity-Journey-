@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hash Lookup — SOC Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Hash Lookup</h1>
+
+        <form method="POST" class="scan-form">
+            <input type="text" name="file_hash" placeholder="Enter file hash (MD5/SHA1/SHA256)" required>
+            <button type="submit">Check</button>
+        </form>
+
+        {% if result %}
+        <div class="card">
+            <h3>Result</h3>
+            <div class="row"><span>Hash</span><span>{{ result.hash }}</span></div>
+            <div class="row"><span>File Name</span><span>{{ result.file_name }}</span></div>
+            <div class="row"><span>File Type</span><span>{{ result.file_type }}</span></div>
+            <div class="row">
+                <span>Malicious</span>
+                <span>
+                    {% if result.malicious > 5 %}
+                        <span class="badge badge-critical">{{ result.malicious }} engines</span>
+                    {% elif result.malicious > 0 %}
+                        <span class="badge badge-warning">{{ result.malicious }} engines</span>
+                    {% else %}
+                        <span class="badge badge-clean">{{ result.malicious }} engines</span>
+                    {% endif %}
+                </span>
+            </div>
+            <div class="row"><span>Suspicious</span><span>{{ result.suspicious }}</span></div>
+            <div class="row"><span>Harmless</span><span>{{ result.harmless }}</span></div>
+            <div class="row"><span>Undetected</span><span>{{ result.undetected }}</span></div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
