@@ -3,6 +3,7 @@ from modules.ip_lookup import check_ip
 from modules.hash_lookup import check_hash
 from modules.url_lookup import check_url 
 from modules.whois_lookup import check_whois
+from modules.dns_lookup import check_dns
 from modules.ioc_db import init_db, add_ioc, get_all_iocs, delete_ioc
 
 init_db()
@@ -32,6 +33,15 @@ def url_page():
         target_url = request.form["target_url"]
         result = check_url(target_url)
     return render_template("url.html", result=result)
+
+@app.route("/dns", methods=["GET", "POST"])
+def dns_page():
+    result = None
+    if request.method == "POST":
+        domain = request.form["domain"]
+        result = check_dns(domain)
+    return render_template("dns.html", result=result)
+
 
 @app.route("/ioc", methods=["GET", "POST"])
 def ioc_page():

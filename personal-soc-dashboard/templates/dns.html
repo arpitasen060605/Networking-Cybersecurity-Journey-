@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}DNS Lookup{% endblock %}
+
+{% block content %}
+    <h1>DNS Lookup</h1>
+
+    <form method="POST" class="scan-form">
+        <input type="text" name="domain" placeholder="Enter a domain (e.g. google.com)" required>
+        <button type="submit">Check</button>
+    </form>
+
+    {% if result %}
+    <div class="card">
+        <h3>Result — {{ result.domain }}</h3>
+
+        <div class="row">
+            <span>A Records</span>
+            <span>
+                {% for a in result.a_records %}
+                    <div>{{ a }}</div>
+                {% endfor %}
+            </span>
+        </div>
+
+        <div class="row">
+            <span>MX Records</span>
+            <span>
+                {% for mx in result.mx_records %}
+                    <div>{{ mx }}</div>
+                {% endfor %}
+            </span>
+        </div>
+
+        <div class="row">
+            <span>NS Records</span>
+            <span>
+                {% for ns in result.ns_records %}
+                    <div>{{ ns }}</div>
+                {% endfor %}
+            </span>
+        </div>
+
+        <div class="row">
+            <span>TXT Records</span>
+            <span>
+                {% for txt in result.txt_records %}
+                    <div>{{ txt }}</div>
+                {% endfor %}
+            </span>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
