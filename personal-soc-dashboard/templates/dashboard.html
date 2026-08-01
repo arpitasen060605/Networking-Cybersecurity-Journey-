@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <h1>Welcome back, Analyst</h1>
+    <p style="color: #617B91; margin-bottom: 24px;">Here's what's happening across your watchlist today</p>
+
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px;">
+        <div class="card">
+            <h3>Active IOCs</h3>
+            <div style="font-size: 28px; font-weight: 700; color: #fff;">{{ ioc_count }}</div>
+        </div>
+        <div class="card">
+            <h3>Modules Online</h3>
+            <div style="font-size: 28px; font-weight: 700; color: #fff;">7</div>
+        </div>
+        <div class="card">
+            <h3>Latest CVE Severity</h3>
+            <div style="font-size: 28px; font-weight: 700; color: #fff;">
+                {{ recent_cves[0].severity if recent_cves else "N/A" }}
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Recent CVEs</h3>
+        {% for cve in recent_cves %}
+        <div class="row" style="flex-direction: column; align-items: flex-start; gap: 4px;">
+            <strong>{{ cve.id }}</strong>
+            <span style="font-size: 13px; color: #617B91;">{{ cve.description[:120] }}...</span>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

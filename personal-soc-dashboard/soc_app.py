@@ -11,13 +11,19 @@ init_db()
 
 app = Flask(__name__)
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/ip", methods=["GET", "POST"])
 def home():
    result= None
    if request.method == "POST":
         ip_address= request.form["ip_address"]
         result = check_ip(ip_address)
    return render_template("index.html", result=result)
+
+@app.route("/")
+def dashboard():
+    ioc_count = len(get_all_iocs())
+    recent_cves = get_recent_cves(limit=3)
+    return render_template("dashboard.html", ioc_count=ioc_count, recent_cves=recent_cves)
 
 @app.route("/hash", methods= ["GET", "POST"])
 def hash_page():
