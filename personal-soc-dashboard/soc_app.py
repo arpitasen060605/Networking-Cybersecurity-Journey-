@@ -1,6 +1,9 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect 
 from modules.ip_lookup import check_ip
 from modules.hash_lookup import check_hash
+from modules.ioc_db import init_db, add_ioc, get_all_iocs, delete_ioc
+
+init_db()
 
 app = Flask(__name__)
 
@@ -19,6 +22,23 @@ def hash_page():
         file_hash = request.form["file_hash"]
         result= check_hash(file_hash)
     return render_template("hash.html", result= result)
+
+@app.route("/ioc", methods=["GET", "POST"])
+def ioc_page():
+    if request.method == "POST":
+        indicator = request.form["indicator"]
+        ioc_type = request.form["type"]
+        threat_level = request.form["threat_level"]
+        notes = request.form["notes"]
+        add_ioc(indicator, ioc_type, threat_level, notes)
+
+    all_iocs = get_all_iocs()
+    return render_template("ioc.html", iocs=all_iocs)
+
+@app.route("/ioc/delete/<int:ioc_id>")
+def delete_ioc_route(ioc_id):
+    delete_ioc(ioc_id)
+    return redirect("/ioc")
 
 if __name__ == "__main__":
     app.run(debug=True)

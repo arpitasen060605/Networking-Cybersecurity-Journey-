@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}IOC Manager{% endblock %}
+
+{% block content %}
+    <h1>IOC Manager</h1>
+
+    <form method="POST" class="scan-form" style="flex-direction: column; align-items: stretch; gap: 12px;">
+        <input type="text" name="indicator" placeholder="Indicator (IP/Hash/URL/Domain)" required>
+        <input type="text" name="type" placeholder="Type (IP, Hash, URL, Domain)" required>
+        <input type="text" name="threat_level" placeholder="Threat Level (Low/Medium/High/Critical)" required>
+        <input type="text" name="notes" placeholder="Notes">
+        <button type="submit">Add IOC</button>
+    </form>
+
+    <div class="card" style="margin-top: 20px;">
+        <h3>Tracked Indicators</h3>
+        {% for ioc in iocs %}
+        <div class="row">
+            <span>{{ ioc[1] }} ({{ ioc[2] }}) — {{ ioc[3] }}</span>
+            <span><a href="/ioc/delete/{{ ioc[0] }}" style="color: #f0a9ac;">Delete</a></span>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}
