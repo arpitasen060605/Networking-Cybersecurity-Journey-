@@ -4,6 +4,7 @@ from modules.hash_lookup import check_hash
 from modules.url_lookup import check_url 
 from modules.whois_lookup import check_whois
 from modules.dns_lookup import check_dns
+from modules.cve_feed import get_recent_cves
 from modules.ioc_db import init_db, add_ioc, get_all_iocs, delete_ioc
 
 init_db()
@@ -62,6 +63,10 @@ def whois_page():
         domain = request.form["domain"]
         result = check_whois(domain)
     return render_template("whois.html", result=result)
+@app.route("/cves")
+def cve_page():
+    cves = get_recent_cves()
+    return render_template("cves.html", cves=cves)
 
 @app.route("/ioc/delete/<int:ioc_id>")
 def delete_ioc_route(ioc_id):
