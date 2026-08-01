@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect 
 from modules.ip_lookup import check_ip
 from modules.hash_lookup import check_hash
+from modules.url_lookup import check_url 
+from modules.whois_lookup import check_whois
 from modules.ioc_db import init_db, add_ioc, get_all_iocs, delete_ioc
 
 init_db()
@@ -23,6 +25,14 @@ def hash_page():
         result= check_hash(file_hash)
     return render_template("hash.html", result= result)
 
+@app.route("/url", methods=["GET", "POST"])
+def url_page():
+    result = None
+    if request.method == "POST":
+        target_url = request.form["target_url"]
+        result = check_url(target_url)
+    return render_template("url.html", result=result)
+
 @app.route("/ioc", methods=["GET", "POST"])
 def ioc_page():
     if request.method == "POST":
@@ -34,6 +44,14 @@ def ioc_page():
 
     all_iocs = get_all_iocs()
     return render_template("ioc.html", iocs=all_iocs)
+
+@app.route("/whois", methods=["GET", "POST"])
+def whois_page():
+    result = None
+    if request.method == "POST":
+        domain = request.form["domain"]
+        result = check_whois(domain)
+    return render_template("whois.html", result=result)
 
 @app.route("/ioc/delete/<int:ioc_id>")
 def delete_ioc_route(ioc_id):

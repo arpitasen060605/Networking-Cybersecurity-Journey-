@@ -1,0 +1,40 @@
+{% extends "base.html"%}
+{% block title %}WHOIS Lookup{% endblock %}
+
+{% block content %}
+    <h1>WHOIS Lookup </h1>
+
+    <form method="POST" class="scan-form">
+        <input type="text" name="domain" placeholder="Enter the domain" required>
+        <button type="submit">Lookup</button>
+        </form>
+        {% if result %}
+        <div class="card">
+        <h3>Result</h3>
+        <div class="row"><span>Domain</span><span>{{ result.domain }}</span></div>
+        <div class="row"><span>Registrar</span><span>{{ result.registrar }}</span></div>
+        <div class="row"><span>Creation Date</span><span>{{ result.creation_date }}</span></div>
+        <div class="row"><span>Expiration Date</span><span>{{ result.expiration_date }}</span></div>
+        <div class="row"><span>Country</span><span>{{ result.country }}</span></div>
+        <div class="row">
+            <span>Name Servers</span>
+            <span>
+                {% for ns in result.name_servers %}
+                    {{ ns }}{% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </span>
+        </div>
+        <div class="row">
+            <span>Emails</span>
+            <span>
+                {% for email in result.emails %}
+                    {{ email }}{% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </span>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
+
+
+

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}URL Checker{% endblock %}
+
+{% block content %}
+    <h1>URL Reputation Checker</h1>
+
+    <form method="POST" class="scan-form">
+        <input type="text" name="target_url" placeholder="Enter a URL to scan" required>
+        <button type="submit">Check</button>
+    </form>
+
+    {% if result %}
+    <div class="card">
+        <h3>Result</h3>
+        <div class="row"><span>URL</span><span>{{ result.url }}</span></div>
+        <div class="row">
+            <span>Malicious</span>
+            <span>
+                {% if result.malicious > 5 %}
+                    <span class="badge badge-critical">{{ result.malicious }} engines</span>
+                {% elif result.malicious > 0 %}
+                    <span class="badge badge-warning">{{ result.malicious }} engines</span>
+                {% else %}
+                    <span class="badge badge-clean">{{ result.malicious }} engines</span>
+                {% endif %}
+            </span>
+        </div>
+        <div class="row"><span>Suspicious</span><span>{{ result.suspicious }}</span></div>
+        <div class="row"><span>Harmless</span><span>{{ result.harmless }}</span></div>
+        <div class="row"><span>Undetected</span><span>{{ result.undetected }}</span></div>
+    </div>
+    {% endif %}
+{% endblock %}
