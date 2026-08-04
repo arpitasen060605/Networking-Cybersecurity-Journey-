@@ -58,6 +58,7 @@ def ioc_page():
         threat_level = request.form["threat_level"]
         notes = request.form["notes"]
         add_ioc(indicator, ioc_type, threat_level, notes)
+        return redirect("/ioc")
 
     all_iocs = get_all_iocs()
     return render_template("ioc.html", iocs=all_iocs)
