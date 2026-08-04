@@ -1,14 +1,21 @@
-import sqlite3
+import os
+import psycopg2
 from datetime import datetime
+from dotenv import load_dotenv
 
-DB_NAME = "iocs.db"
+load_dotenv()
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+def get_connection():
+    return psycopg2.connect(DATABASE_URL)
 
 def init_db():
-    conn = sqlite3.connect(DB_NAME)
+    conn = get_connection()
     cursor = conn.cursor()
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS iocs (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id SERIAL PRIMARY KEY,
             indicator TEXT NOT NULL,
             type TEXT NOT NULL,
             threat_level TEXT,
@@ -17,36 +24,38 @@ def init_db():
         )
     ''')
     conn.commit()
+    cursor.close()
     conn.close()
 
 def add_ioc(indicator, ioc_type, threat_level, notes):
-    conn = sqlite3.connect(DB_NAME)
+    conn = get_connection()
     cursor = conn.cursor()
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     cursor.execute('''
         INSERT INTO iocs (indicator, type, threat_level, notes, date_added)
-        VALUES(?,?,?,?,?)
+        VALUES (%s, %s, %s, %s, %s)
         ''', (indicator, ioc_type, threat_level, notes, timestamp))
     conn.commit()
+    cursor.close()
     conn.close()
 
 def get_all_iocs():
-    conn = sqlite3.connect(DB_NAME)
+    conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM iocs")
+    cursor.execute("SELECT * FROM iocs ORDER BY id DESC")
     rows = cursor.fetchall()
+    cursor.close()
     conn.close()
     return rows
+
 def delete_ioc(ioc_id):
-    conn = sqlite3.connect(DB_NAME)
+    conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM iocs WHERE id = ?", (ioc_id,))
+    cursor.execute("DELETE FROM iocs WHERE id = %s", (ioc_id,))
     conn.commit()
+    cursor.close()
     conn.close()
 
 if __name__ == "__main__":
     init_db()
-    add_ioc("185.220.101.1", "IP", "Critical", "Known Tor exit node, high abuse score")
-    all_iocs = get_all_iocs()
-    for row in all_iocs:
-        print(row)
+    print("Database initialized (PostgreSQL).")
