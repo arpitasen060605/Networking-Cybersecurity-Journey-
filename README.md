@@ -52,3 +52,17 @@ a Flask web app with an interactive dashboard UI.
 - Flask routing, templates, and Jinja2 (loops, conditionals, filters)
 - GET vs POST and HTML forms
 - Reusing and combining code from earlier projects
+
+## Project 5: Personal SOC Dashboard
+
+A full-stack security dashboard combining IP/URL/hash reputation checks, WHOIS/DNS lookups, a live CVE feed, and an IOC tracker-backed by PostgreSQL and deployed live.
+
+🔗 **Live demo:** [personal-soc-dashboard.onrender.com](https://personal-soc-dashboard.onrender.com)
+
+### Concepts learned
+
+- REST APIs, authentication, and async submit-poll patterns
+- Flask routing, forms, and Jinja2 template inheritance
+- SQLite → PostgreSQL migration for persistent storage
+- Environment variables for secure credential handling
+- Production deployment with Gunicorn
